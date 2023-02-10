@@ -3,7 +3,7 @@ syntax = "proto3";
 package rbac;
 option go_package = "github.com/defeng-hub/mcube-demo/apps/rbac";
 
-service Service {
+service UserService {
     rpc CreateBook(CreateUserRequest) returns(User);
     rpc QueryBook(QueryUserRequest) returns(UserSet);
     rpc DescribeBook(DescribeUserRequest) returns(User);
