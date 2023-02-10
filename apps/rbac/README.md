@@ -1,16 +1,21 @@
-CREATE TABLE IF NOT EXISTS `books` (
-  `id` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '对象Id',
-  `create_at` bigint NOT NULL COMMENT '创建时间(13位时间戳)',
-  `create_by` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
-  `update_at` bigint NOT NULL COMMENT '更新时间',
-  `update_by` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新人',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '书名',
-  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '作者',
-  PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`) USING BTREE COMMENT '用于书名搜索',
-  KEY `idx_author` (`author`) USING BTREE COMMENT '用于作者搜索'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+# RBAC标准完整权限管理系统的实现
+用户、角色、权限三大核心表，加上用户角色、角色权限两个映射表(用于给用户表关联上权限表)。这样就可以通过登录的用户来获取权限列表，或判断是否拥有某个权限。
 
+# 五张表逻辑关联
+１、用户表（s_user）：user_id,user_name、pwd,state,user_type
+
+２、角色表（s_role）：role_id,role_name,description
+
+３、菜单表（s_menu）：menu_id,menu_pid,sort,menu_name,func_name,is_enabled,description
+
+４、用户角色表（s_user_role）：urid、user_id、role_id
+
+５、角色菜单表（s_role_menu）：rmid、role_id、menu_id
+ 
+---
+
+
+```mysql
 
 -- １、用户表（s_user）：user_id,user_name、pwd,state,user_type
 create table s_user
@@ -67,3 +72,17 @@ create table s_role_menu
     menu_id int,         -- 菜单ID
     CONSTRAINT pk_s_role_menu_rmid PRIMARY KEY(rmid)  -- 主键
 );
+
+
+```
+
+
+# 操作
+```cmd
+> protoc -I="."  --go_out=. --go_opt=module="github.com/defeng-hub/mcube-demo" --go-grpc_out=. --go-grpc_opt=module="github.com/defeng-hub/mcube-demo" apps/rbac/pb/*.proto
+
+> protoc-go-inject-tag -input=apps/rbac/*.pb.go
+
+> mcube generate enum -p -m apps/rbac/*.pb.go
+
+```

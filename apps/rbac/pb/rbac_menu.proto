@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package rbac;
+option go_package = "github.com/defeng-hub/mcube-demo/apps/rbac";
+
+
+message Menu {
+    int64 menu_id = 1;
+    string menu_name = 2;
+    int64 menu_pid = 3;
+    int64 sort = 4;
+    string func_name = 5;
+    int64 is_enabled = 6;
+    string description = 7;
+}

@@ -12,11 +12,11 @@ port = "18050"
 
 
 [mysql]
-host = "127.0.0.1"
+host = "159.75.37.58"
 port = "3306"
 database = "mcube-demo"
-username = "root"
-password = "123456"
+username = "mcube-demo"
+password = "f6TXsmNaaNiiwGpT"
 
 
 

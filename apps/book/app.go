@@ -6,8 +6,6 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/imdario/mergo"
-	"github.com/infraboard/mcube/http/request"
-	pb_request "github.com/infraboard/mcube/pb/request"
 	"github.com/rs/xid"
 )
 
@@ -73,36 +71,12 @@ func NewDescribeBookRequest(id string) *DescribeBookRequest {
 	}
 }
 
-func NewQueryBookRequest() *QueryBookRequest {
-	return &QueryBookRequest{
-		Page: request.NewDefaultPageRequest(),
-	}
-}
-
 func NewQueryBookRequestFromHTTP(r *http.Request) *QueryBookRequest {
 	qs := r.URL.Query()
 
 	return &QueryBookRequest{
-		Page:     request.NewPageRequestFromHTTP(r),
+		Page:     &PageRequest{PageSize: 1, PageNumber: 1, Offset: 0},
 		Keywords: qs.Get("keywords"),
-	}
-}
-
-func NewPutBookRequest(id string) *UpdateBookRequest {
-	return &UpdateBookRequest{
-		Id:         id,
-		UpdateMode: pb_request.UpdateMode_PUT,
-		UpdateAt:   time.Now().UnixMicro(),
-		Data:       NewCreateBookRequest(),
-	}
-}
-
-func NewPatchBookRequest(id string) *UpdateBookRequest {
-	return &UpdateBookRequest{
-		Id:         id,
-		UpdateMode: pb_request.UpdateMode_PATCH,
-		UpdateAt:   time.Now().UnixMicro(),
-		Data:       NewCreateBookRequest(),
 	}
 }
 

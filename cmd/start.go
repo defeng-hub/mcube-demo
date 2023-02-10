@@ -43,6 +43,7 @@ var serviceCmd = &cobra.Command{
 		}
 
 		conf := conf.C()
+
 		// 启动服务
 		ch := make(chan os.Signal, 1)
 		defer close(ch)

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package rbac;
+option go_package = "github.com/defeng-hub/mcube-demo/apps/rbac";
+
+message Role {
+    int64 role_id = 1;
+    string role_name = 2;
+    string description = 3;
+}
+
+message RoleMenu {
+    int64 rmid = 1;
+    int64 role_id = 2;
+    int64 menu_id = 3;
+}

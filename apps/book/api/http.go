@@ -35,10 +35,6 @@ func (h *handler) Version() string {
 func (h *handler) Registry(r gin.IRouter) {
 	r.POST("/", h.CreateBook)
 	r.GET("/", h.QueryBook)
-	r.GET("/:id", h.DescribeBook)
-	r.PUT("/:id", h.PutBook)
-	r.PATCH("/:id", h.PatchBook)
-	r.DELETE("/:id", h.DeleteBook)
 }
 
 func init() {

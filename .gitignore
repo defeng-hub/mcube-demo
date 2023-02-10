@@ -16,6 +16,5 @@ coverage.txt
 
 etc/mcube-demo.toml
 etc/mcube-demo.env
-etc/unit_test.env
 etc/ssl
 mcube-demo

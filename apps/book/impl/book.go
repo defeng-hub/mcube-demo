@@ -34,62 +34,6 @@ func (s *service) CreateBook(ctx context.Context, req *book.CreateBookRequest) (
 	return ins, nil
 }
 
-func (s *service) QueryBook(ctx context.Context, req *book.QueryBookRequest) (
-	*book.BookSet, error) {
-	query := sqlbuilder.NewQuery(queryBookSQL)
-
-	// 支持关键字参数
-	if req.Keywords != "" {
-		query.Where("name LIKE ? OR author = ?",
-			"%"+req.Keywords+"%",
-			req.Keywords,
-		)
-	}
-
-	querySQL, args := query.Order("create_at").Desc().Limit(req.Page.ComputeOffset(), uint(req.Page.PageSize)).BuildQuery()
-	s.log.Debugf("sql: %s, args: %v", querySQL, args)
-
-	queryStmt, err := s.db.Prepare(querySQL)
-	if err != nil {
-		return nil, exception.NewInternalServerError("prepare query book error, %s", err.Error())
-	}
-	defer queryStmt.Close()
-
-	rows, err := queryStmt.Query(args...)
-	if err != nil {
-		return nil, exception.NewInternalServerError(err.Error())
-	}
-	defer rows.Close()
-
-	set := book.NewBookSet()
-	for rows.Next() {
-		ins := book.NewDefaultBook()
-		err := rows.Scan(
-			&ins.Id, &ins.CreateAt, &ins.Data.CreateBy, &ins.UpdateAt, &ins.UpdateBy,
-			&ins.Data.Name, &ins.Data.Author,
-		)
-		if err != nil {
-			return nil, exception.NewInternalServerError("query book error, %s", err.Error())
-		}
-		set.Add(ins)
-	}
-
-	// 获取total SELECT COUNT(*) FROMT t Where ....
-	countSQL, args := query.BuildCount()
-	countStmt, err := s.db.Prepare(countSQL)
-	if err != nil {
-		return nil, exception.NewInternalServerError(err.Error())
-	}
-
-	defer countStmt.Close()
-	err = countStmt.QueryRow(args...).Scan(&set.Total)
-	if err != nil {
-		return nil, exception.NewInternalServerError(err.Error())
-	}
-
-	return set, nil
-}
-
 func (s *service) DescribeBook(ctx context.Context, req *book.DescribeBookRequest) (
 	*book.Book, error) {
 	query := sqlbuilder.NewQuery(queryBookSQL)
