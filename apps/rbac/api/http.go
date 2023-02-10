@@ -27,12 +27,9 @@ func (h *handler) Name() string {
 	return rbac.AppName
 }
 
-func (h *handler) Version() string {
-	return "v1"
-}
-
 func (h *handler) Registry(r gin.IRouter) {
 	r.GET("/", h.QueryUser)
+	r.GET("/dd", h.CreateUser)
 }
 
 func init() {

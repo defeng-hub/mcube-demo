@@ -4,10 +4,10 @@ package rbac;
 option go_package = "github.com/defeng-hub/mcube-demo/apps/rbac";
 
 service UserService {
-    rpc CreateBook(CreateUserRequest) returns(User);
-    rpc QueryBook(QueryUserRequest) returns(UserSet);
-    rpc DescribeBook(DescribeUserRequest) returns(User);
-    rpc DeleteBook(DeleteUserRequest) returns(User);
+    rpc CreateUser(CreateUserRequest) returns(User);
+    rpc QueryUser(QueryUserRequest) returns(UserSet);
+    rpc DescribeUser(DescribeUserRequest) returns(User);
+    rpc DeleteUser(DeleteUserRequest) returns(User);
 }
 
 message User {
@@ -53,7 +53,6 @@ message DescribeUserRequest {
     string user_id = 1;
 }
 message DeleteUserRequest {
-    // book id
     // @gotags: json:"user_id"
     string user_id = 1;
 }

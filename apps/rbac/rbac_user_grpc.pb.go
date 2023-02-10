@@ -22,10 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	CreateBook(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
-	QueryBook(ctx context.Context, in *QueryUserRequest, opts ...grpc.CallOption) (*UserSet, error)
-	DescribeBook(ctx context.Context, in *DescribeUserRequest, opts ...grpc.CallOption) (*User, error)
-	DeleteBook(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*User, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
+	QueryUser(ctx context.Context, in *QueryUserRequest, opts ...grpc.CallOption) (*UserSet, error)
+	DescribeUser(ctx context.Context, in *DescribeUserRequest, opts ...grpc.CallOption) (*User, error)
+	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
 type userServiceClient struct {
@@ -36,36 +36,36 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) CreateBook(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/rbac.UserService/CreateBook", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/rbac.UserService/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) QueryBook(ctx context.Context, in *QueryUserRequest, opts ...grpc.CallOption) (*UserSet, error) {
+func (c *userServiceClient) QueryUser(ctx context.Context, in *QueryUserRequest, opts ...grpc.CallOption) (*UserSet, error) {
 	out := new(UserSet)
-	err := c.cc.Invoke(ctx, "/rbac.UserService/QueryBook", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/rbac.UserService/QueryUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) DescribeBook(ctx context.Context, in *DescribeUserRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) DescribeUser(ctx context.Context, in *DescribeUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/rbac.UserService/DescribeBook", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/rbac.UserService/DescribeUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) DeleteBook(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/rbac.UserService/DeleteBook", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/rbac.UserService/DeleteUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,10 +76,10 @@ func (c *userServiceClient) DeleteBook(ctx context.Context, in *DeleteUserReques
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	CreateBook(context.Context, *CreateUserRequest) (*User, error)
-	QueryBook(context.Context, *QueryUserRequest) (*UserSet, error)
-	DescribeBook(context.Context, *DescribeUserRequest) (*User, error)
-	DeleteBook(context.Context, *DeleteUserRequest) (*User, error)
+	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+	QueryUser(context.Context, *QueryUserRequest) (*UserSet, error)
+	DescribeUser(context.Context, *DescribeUserRequest) (*User, error)
+	DeleteUser(context.Context, *DeleteUserRequest) (*User, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -87,17 +87,17 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) CreateBook(context.Context, *CreateUserRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateBook not implemented")
+func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedUserServiceServer) QueryBook(context.Context, *QueryUserRequest) (*UserSet, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryBook not implemented")
+func (UnimplementedUserServiceServer) QueryUser(context.Context, *QueryUserRequest) (*UserSet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryUser not implemented")
 }
-func (UnimplementedUserServiceServer) DescribeBook(context.Context, *DescribeUserRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeBook not implemented")
+func (UnimplementedUserServiceServer) DescribeUser(context.Context, *DescribeUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeUser not implemented")
 }
-func (UnimplementedUserServiceServer) DeleteBook(context.Context, *DeleteUserRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteBook not implemented")
+func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -112,74 +112,74 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_CreateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).CreateBook(ctx, in)
+		return srv.(UserServiceServer).CreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rbac.UserService/CreateBook",
+		FullMethod: "/rbac.UserService/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CreateBook(ctx, req.(*CreateUserRequest))
+		return srv.(UserServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_QueryBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_QueryUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).QueryBook(ctx, in)
+		return srv.(UserServiceServer).QueryUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rbac.UserService/QueryBook",
+		FullMethod: "/rbac.UserService/QueryUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).QueryBook(ctx, req.(*QueryUserRequest))
+		return srv.(UserServiceServer).QueryUser(ctx, req.(*QueryUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_DescribeBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_DescribeUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DescribeUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).DescribeBook(ctx, in)
+		return srv.(UserServiceServer).DescribeUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rbac.UserService/DescribeBook",
+		FullMethod: "/rbac.UserService/DescribeUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DescribeBook(ctx, req.(*DescribeUserRequest))
+		return srv.(UserServiceServer).DescribeUser(ctx, req.(*DescribeUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_DeleteBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).DeleteBook(ctx, in)
+		return srv.(UserServiceServer).DeleteUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rbac.UserService/DeleteBook",
+		FullMethod: "/rbac.UserService/DeleteUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DeleteBook(ctx, req.(*DeleteUserRequest))
+		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -192,20 +192,20 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateBook",
-			Handler:    _UserService_CreateBook_Handler,
+			MethodName: "CreateUser",
+			Handler:    _UserService_CreateUser_Handler,
 		},
 		{
-			MethodName: "QueryBook",
-			Handler:    _UserService_QueryBook_Handler,
+			MethodName: "QueryUser",
+			Handler:    _UserService_QueryUser_Handler,
 		},
 		{
-			MethodName: "DescribeBook",
-			Handler:    _UserService_DescribeBook_Handler,
+			MethodName: "DescribeUser",
+			Handler:    _UserService_DescribeUser_Handler,
 		},
 		{
-			MethodName: "DeleteBook",
-			Handler:    _UserService_DeleteBook_Handler,
+			MethodName: "DeleteUser",
+			Handler:    _UserService_DeleteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
