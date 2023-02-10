@@ -16,7 +16,7 @@ func (h *handler) QueryUser(c *gin.Context) {
 }
 
 func (h *handler) CreateUser(c *gin.Context) {
-	book, err := h.service.CreateUser(context.Background(), &rbac.CreateUserRequest{
+	user, err := h.service.CreateUser(context.Background(), &rbac.CreateUserRequest{
 		UserName: "www",
 		Pwd:      "www",
 		Email:    "www",
@@ -27,5 +27,6 @@ func (h *handler) CreateUser(c *gin.Context) {
 		response.Failed(c.Writer, err)
 		return
 	}
-	response.Success(c.Writer, book)
+	h.log.Infof("创建用户:%s", user)
+	response.Success(c.Writer, user)
 }
