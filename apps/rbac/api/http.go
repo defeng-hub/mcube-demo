@@ -28,8 +28,9 @@ func (h *handler) Name() string {
 }
 
 func (h *handler) Registry(r gin.IRouter) {
-	r.GET("/", h.QueryUser)
-	r.GET("/dd", h.CreateUser)
+	r.POST("/QueryUser", h.QueryUser)
+	r.POST("/CreateUser", h.CreateUser)
+	r.POST("/DeleteUser", h.DeleteUser)
 }
 
 func init() {

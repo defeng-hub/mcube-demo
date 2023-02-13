@@ -50,11 +50,11 @@ message UserSet {
 message DescribeUserRequest {
     // user id
     // @gotags: json:"user_id"
-    string user_id = 1;
+    int64 user_id = 1;
 }
 message DeleteUserRequest {
     // @gotags: json:"user_id"
-    string user_id = 1;
+    int64 user_id = 1;
 }
 message QueryUserRequest {
     // 分页参数

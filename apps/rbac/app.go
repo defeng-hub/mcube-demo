@@ -31,3 +31,7 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		UserType: "普通用户",
 	}, nil
 }
+
+func NewUserSet() (*UserSet, error) {
+	return &UserSet{}, nil
+}

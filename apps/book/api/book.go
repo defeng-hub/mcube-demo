@@ -21,9 +21,9 @@ func (h *handler) CreateBook(c *gin.Context) {
 		return
 	}
 
-	response.Success(c.Writer, set)
+	response.Success(c.Writer, 0, "", set)
 }
 
 func (h *handler) QueryBook(c *gin.Context) {
-	response.Success(c.Writer, "666")
+	response.Success(c.Writer, 0, "666", nil)
 }
