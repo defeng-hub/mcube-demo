@@ -3,20 +3,16 @@ package api
 import (
 	"context"
 	rbac "github.com/defeng-hub/mcube-demo/apps/rbac"
-	"github.com/defeng-hub/mcube-demo/util"
+	"github.com/defeng-hub/mcube-demo/util/exception"
 	"github.com/gin-gonic/gin"
 	"github.com/infraboard/mcube/http/response"
 )
-
-func (h *handler) Version() string {
-	return "v1"
-}
 
 func (h *handler) QueryUser(c *gin.Context) {
 	req := rbac.QueryUserRequest{Page: &rbac.PageRequest{}}
 	c.Bind(&req)
 
-	userSet, err := h.service.QueryUser(context.Background(), &req)
+	userSet, err := h.userService.QueryUser(context.Background(), &req)
 	if err != nil {
 		response.Failed(c.Writer, err)
 		return
@@ -33,7 +29,7 @@ func (h *handler) CreateUser(c *gin.Context) {
 	}
 	h.log.Infof("创建用户:%s", &userReq)
 
-	user, err := h.service.CreateUser(context.Background(), &userReq)
+	user, err := h.userService.CreateUser(context.Background(), &userReq)
 	if err != nil {
 		response.Failed(c.Writer, err)
 		return
@@ -50,10 +46,10 @@ func (h *handler) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	user, err := h.service.DeleteUser(context.Background(), &req)
+	user, err := h.userService.DeleteUser(context.Background(), &req)
 	if err != nil {
 		if err.Error() == "sql: no rows in result set" {
-			newErr := util.DefaultException(-1, "用户不存在", nil)
+			newErr := exception.DefaultException(-1, "用户不存在", nil)
 			response.Failed(c.Writer, newErr)
 			return
 		}
@@ -64,4 +60,7 @@ func (h *handler) DeleteUser(c *gin.Context) {
 
 	response.Success(c.Writer, 0, "删除用户成功", user)
 	return
+}
+
+func (h *handler) UpdateUser(c *gin.Context) {
 }

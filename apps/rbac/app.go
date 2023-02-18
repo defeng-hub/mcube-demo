@@ -35,3 +35,19 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 func NewUserSet() (*UserSet, error) {
 	return &UserSet{}, nil
 }
+
+// Validate 为请求绑定是否为必填项目
+func (req *CreateRoleRequest) Validate() error {
+	return validate.Struct(req)
+}
+
+func NewRole(req *CreateRoleRequest) (*Role, error) {
+	err := req.Validate()
+	if err != nil {
+		return nil, err
+	}
+	return &Role{
+		RoleName:    req.RoleName,
+		Description: req.Description,
+	}, nil
+}

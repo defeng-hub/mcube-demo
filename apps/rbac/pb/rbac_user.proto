@@ -8,6 +8,12 @@ service UserService {
     rpc QueryUser(QueryUserRequest) returns(UserSet);
     rpc DescribeUser(DescribeUserRequest) returns(User);
     rpc DeleteUser(DeleteUserRequest) returns(User);
+    rpc UpdateUser(UpdateUserRequest) returns(User);
+}
+
+service UserRoleService{
+    rpc CreateUserRole(CreateUserRoleRequest) returns(UserRole);
+    rpc DeleteUserRole(DeleteUserRoleRequest) returns(UserRole);
 }
 
 message User {
@@ -33,10 +39,20 @@ message User {
 }
 
 message UserRole {
-    int64 urid = 1;
+    int64 id = 1;
     int64 user_id = 2;
     int64 role_id = 3;
 }
+
+// UserRole合集
+message CreateUserRoleRequest{
+    int64 user_id = 1;
+    int64 role_id = 2;
+}
+message DeleteUserRoleRequest{
+    int64 id = 1;
+}
+
 
 // User 合集
 message UserSet {
@@ -75,6 +91,22 @@ message CreateUserRequest{
     string address = 5;
 }
 
+message UpdateUserRequest{
+    // @gotags: json:"id"
+    int64 user_id = 1;
+    // 更新模式
+    // @gotags: json:"update_mode"
+    UpdateMode update_mode = 2;
+    // 更新人
+    // @gotags: json:"update_by"
+    string update_by = 3;
+    // 更新时间
+    // @gotags: json:"update_at"
+    int64 update_at = 4;
+    // @gotags: json:"data"
+    CreateUserRequest data = 5;
+}
+
 // 公共部分
 // 分页!!
 message PageRequest {
@@ -84,7 +116,9 @@ message PageRequest {
 }
 // 更新模式
 enum UpdateMode {
+    // 全量更新
     PUT = 0;
+    // 部分更新
     PATCH = 1;
 }
 

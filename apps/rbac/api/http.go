@@ -13,13 +13,19 @@ var (
 )
 
 type handler struct {
-	service rbac.UserServiceServer
-	log     logger.Logger
+	userService rbac.UserServiceServer
+	roleService rbac.RoleServiceServer
+	log         logger.Logger
+}
+
+func init() {
+	app.RegistryGinApp(h)
 }
 
 func (h *handler) Config() error {
 	h.log = zap.L().Named(rbac.AppName)
-	h.service = app.GetGrpcApp(rbac.AppName).(rbac.UserServiceServer)
+	h.userService = app.GetGrpcApp(rbac.AppName).(rbac.UserServiceServer)
+	h.roleService = app.GetGrpcApp(rbac.AppName).(rbac.RoleServiceServer)
 	return nil
 }
 
@@ -27,12 +33,22 @@ func (h *handler) Name() string {
 	return rbac.AppName
 }
 
-func (h *handler) Registry(r gin.IRouter) {
-	r.POST("/QueryUser", h.QueryUser)
-	r.POST("/CreateUser", h.CreateUser)
-	r.POST("/DeleteUser", h.DeleteUser)
+func (h *handler) Version() string {
+	return ""
 }
 
-func init() {
-	app.RegistryGinApp(h)
+func (h *handler) Registry(r gin.IRouter) {
+	userRouter := r.Group("/user")
+	{
+		userRouter.POST("/QueryUser", h.QueryUser)
+		userRouter.POST("/CreateUser", h.CreateUser)
+		userRouter.POST("/DeleteUser", h.DeleteUser)
+	}
+
+	roleRouter := r.Group("/role")
+	{
+		roleRouter.POST("/CreateRole", h.CreateRole)
+		roleRouter.POST("/DeleteRole", h.DeleteRole)
+		roleRouter.POST("/QueryRole", h.QueryRole)
+	}
 }

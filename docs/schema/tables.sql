@@ -53,16 +53,21 @@ create table s_menu
 -- ４、用户角色表（s_user_role）：urid、user_id、role_id
 create table s_user_role
 (
-    urid int not null AUTO_INCREMENT,   -- 用户角色ID
+    id int not null AUTO_INCREMENT,   -- 用户角色ID
     user_id int,         -- 用户ID
     role_id int,         -- 角色ID
-    CONSTRAINT pk_s_user_role_urid PRIMARY KEY(urid)  -- 主键
+    CONSTRAINT pk_s_user_role_urid PRIMARY KEY(id),  -- 主键
+    FOREIGN KEY (user_id) REFERENCES s_user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES s_user(user_id) ON UPDATE CASCADE,
+
+    FOREIGN KEY (role_id) REFERENCES s_role(role_id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES s_role(role_id) ON UPDATE CASCADE
 );
 
 -- ５、角色菜单表（s_role_menu）：rmid、role_id、menu_id
 create table s_role_menu
 (
-    rmid int not null auto_increment,   -- 角色菜单ID
+    id int not null auto_increment,   -- 角色菜单ID
     role_id int,         -- 角色ID
     menu_id int,         -- 菜单ID
     CONSTRAINT pk_s_role_menu_rmid PRIMARY KEY(rmid)  -- 主键

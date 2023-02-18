@@ -11,3 +11,9 @@ const (
 	SelectUserSQL = `select user_id,user_name,pwd,email,phone,address,state from s_user where user_id = ?;`
 	DeleteUserSQL = `delete from s_user where user_id = ?;`
 )
+
+const (
+	insertRole = `insert into s_role(role_name, description) VALUES (?,?);`
+	deleteRole = `delete from s_role where role_id = ?;`
+	selectRole = "select role_id, role_name, description from s_role "
+)

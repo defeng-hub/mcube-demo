@@ -20,6 +20,7 @@ type service struct {
 	db  *sql.DB
 	log logger.Logger
 	rbac.UnimplementedUserServiceServer
+	rbac.UnimplementedRoleServiceServer
 }
 
 func (s *service) Name() string {

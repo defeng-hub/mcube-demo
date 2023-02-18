@@ -5,9 +5,45 @@ option go_package = "github.com/defeng-hub/mcube-demo/apps/rbac";
 
 message Role {
     int64 role_id = 1;
+
+    // @gotags: json:"role_name" validate:"required"
     string role_name = 2;
     string description = 3;
+
 }
+service RoleService {
+    rpc CreateRole(CreateRoleRequest) returns (Role);
+    rpc DeleteRole(DeleteRoleRequest) returns (Role);
+    rpc QueryRole(QueryRoleRequest) returns(RoleSet);
+}
+
+// User 合集
+message RoleSet {
+    // 分页时，返回总数量a
+    // @gotags: json:"total"
+    int64 total = 1;
+    // 一页的数据
+    // @gotags: json:"items"
+    repeated Role items = 2;
+}
+
+message QueryRoleRequest {
+    // 关键字参数
+    // @gotags: json:"keywords"
+    string keywords = 1;
+}
+
+message CreateRoleRequest{
+    // @gotags: json:"role_name"
+   string role_name = 1;
+    // @gotags: json:"description"
+    string description = 2;
+}
+
+message DeleteRoleRequest{
+    int64 role_id = 1;
+}
+
 
 message RoleMenu {
     int64 rmid = 1;

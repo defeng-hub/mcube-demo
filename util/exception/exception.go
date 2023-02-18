@@ -1,4 +1,4 @@
-package util
+package exception
 
 import (
 	"encoding/json"
@@ -12,6 +12,7 @@ func DefaultException(code int, message string, data interface{}) *exception {
 		Data:    data,
 	}
 }
+
 func NewException(code int, message string, data interface{}) *exception {
 	return &exception{
 		Namespace: "",
