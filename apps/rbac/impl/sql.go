@@ -10,6 +10,10 @@ const (
 
 	SelectUserSQL = `select user_id,user_name,pwd,email,phone,address,state from s_user where user_id = ?;`
 	DeleteUserSQL = `delete from s_user where user_id = ?;`
+
+	// 添加权限
+	insertUserRole = `insert into s_user_role(user_id, role_id) VALUES (?,?);`
+	deleteUserRole = `delete from s_user_role where id = ?;`
 )
 
 const (

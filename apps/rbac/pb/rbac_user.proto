@@ -35,7 +35,7 @@ message User {
 
     // 用户类型（用于用户分组，比如管理员)
     // @gotags: json:"user_type" bson:"user_type"
-    string user_type = 8;
+    repeated int64 user_type = 8;
 }
 
 message UserRole {

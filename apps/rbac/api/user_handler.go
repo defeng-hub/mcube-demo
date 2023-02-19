@@ -62,5 +62,38 @@ func (h *handler) DeleteUser(c *gin.Context) {
 	return
 }
 
-func (h *handler) UpdateUser(c *gin.Context) {
+func (h *handler) CreateUserRole(c *gin.Context) {
+	req := rbac.CreateUserRoleRequest{}
+	err := c.Bind(&req)
+	if err != nil {
+		newErr := exception.DefaultException(-1, "请求解析失败", nil)
+		response.Failed(c.Writer, newErr)
+		return
+	}
+
+	role, err := h.userRoleService.CreateUserRole(context.Background(), &req)
+	if err != nil {
+		response.Failed(c.Writer, err)
+		return
+	} else {
+		response.Success(c.Writer, 0, "添加权限成功", role)
+	}
+}
+
+func (h *handler) DeleteUserRole(c *gin.Context) {
+	req := rbac.DeleteUserRoleRequest{}
+	err := c.Bind(&req)
+	if err != nil {
+		newErr := exception.DefaultException(-1, "请求解析失败", nil)
+		response.Failed(c.Writer, newErr)
+		return
+	}
+	role, err := h.userRoleService.DeleteUserRole(context.Background(), &req)
+	if err != nil {
+		response.Failed(c.Writer, err)
+		return
+	} else {
+		response.Success(c.Writer, 0, "删除权限成功", role)
+	}
+
 }

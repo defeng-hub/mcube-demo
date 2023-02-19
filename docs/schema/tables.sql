@@ -12,10 +12,9 @@ CREATE TABLE IF NOT EXISTS `books` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- １、用户表（s_user）：user_id,user_name、pwd,state,user_type
+-- １、用户表（s_user）：user_id,user_name、pwd,state
 create table s_user
 (
-
     user_id int not null AUTO_INCREMENT,  -- 用户ID
     user_name varchar(100),        -- 用户名
     pwd varchar(50),               -- 密码(md5加密)
@@ -23,7 +22,6 @@ create table s_user
     phone varchar(11),             -- 手机号
     address varchar(100),          -- 地址
     state int,                     -- 用户状态(0:启用，1禁用）
-    user_type varchar(50),         -- 用户类型（用于用户分组，比如管理员，省级，市级，县级,etc.)
     CONSTRAINT pk_s_user_user_id PRIMARY KEY(user_id)  -- 主键
 );
 

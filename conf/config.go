@@ -3,11 +3,13 @@ package conf
 import (
 	"context"
 	"fmt"
+	"gorm.io/gorm"
 	"sync"
 	"time"
 
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	gmysql "gorm.io/driver/mysql"
 )
 
 var (
@@ -158,4 +160,16 @@ func (m *mysql) GetDB() (*sql.DB, error) {
 		db = conn
 	}
 	return db, nil
+}
+
+func (m *mysql) GetGDB() (*gorm.DB, error) {
+	db, err := m.GetDB()
+	if err != nil {
+		return nil, err
+	}
+	gdb, err := gorm.Open(gmysql.New(gmysql.Config{Conn: db}), &gorm.Config{
+		QueryFields: true, //打印sql
+		//SkipDefaultTransaction: true, //禁用事务
+	})
+	return gdb, err
 }

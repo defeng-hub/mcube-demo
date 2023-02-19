@@ -17,6 +17,7 @@ require (
 	github.com/stretchr/testify v1.8.1
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.28.1
+	gorm.io/driver/mysql v1.4.7
 )
 
 require (
@@ -32,6 +33,8 @@ require (
 	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
@@ -56,5 +59,6 @@ require (
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gorm.io/gorm v1.23.8 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )

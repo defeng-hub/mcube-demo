@@ -4,16 +4,22 @@ import (
 	"context"
 	"fmt"
 	"github.com/defeng-hub/mcube-demo/apps/rbac"
-	"github.com/infraboard/mcube/exception"
+	//"github.com/infraboard/mcube/exception"
+
+	"github.com/defeng-hub/mcube-demo/util/exception"
 	"github.com/infraboard/mcube/sqlbuilder"
 )
 
 func (s *service) CreateUser(ctx context.Context, req *rbac.CreateUserRequest) (*rbac.User, error) {
 	user, err := rbac.NewUser(req)
 	if err != nil {
-		return nil, exception.NewBadRequest("validate create user error, %s", err)
+		newErr := exception.DefaultException(-2, err.Error(), nil)
+		return nil, newErr
 	}
 
+	if err != nil {
+		return nil, err
+	}
 	//预加载sql
 	stmt, err := s.db.Prepare(insertUserSQL)
 	if err != nil {
@@ -77,6 +83,7 @@ func (s *service) QueryUser(ctx context.Context, req *rbac.QueryUserRequest) (*r
 	for qu.Next() {
 		user := rbac.User{}
 		qu.Scan(&user.UserId, &user.UserName, &user.Pwd, &user.Email, &user.Phone, &user.Address, &user.State)
+
 		userSet.Items = append(userSet.Items, &user)
 	}
 	//s.log.Infof("userSet: %s", userSet)
@@ -118,6 +125,43 @@ func (s *service) DeleteUser(ctx context.Context, req *rbac.DeleteUserRequest) (
 		return &user, nil
 	} else {
 		return nil, fmt.Errorf("删除用户失败")
+	}
+}
 
+// CreateUserRole   user role
+func (s *service) CreateUserRole(ctx context.Context, req *rbac.CreateUserRoleRequest) (
+	*rbac.UserRole, error) {
+	userRole := rbac.UserRole{}
+	userRole.UserId = req.UserId
+	userRole.RoleId = req.RoleId
+
+	prepare, err := s.db.Prepare(insertUserRole)
+	if err != nil {
+		return nil, err
+	}
+	defer prepare.Close()
+
+	exec, err := prepare.Exec(req.UserId, req.RoleId)
+	if err != nil {
+		return nil, err
+	}
+	userRole.Id, err = exec.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	return &userRole, nil
+}
+
+func (s *service) DeleteUserRole(ctx context.Context, req *rbac.DeleteUserRoleRequest) (
+	*rbac.UserRole, error) {
+	//s.gdb.Delete(,req.Id)
+	exec := s.gdb.Exec(deleteUserRole, req.Id)
+	num := exec.RowsAffected
+
+	if num == 0 {
+		newErr := exception.DefaultException(-2, "不存在该id数据", nil)
+		return nil, newErr
+	} else {
+		return nil, nil
 	}
 }

@@ -28,7 +28,6 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		Phone:    req.Phone,
 		Address:  req.Address,
 		State:    1,
-		UserType: "普通用户",
 	}, nil
 }
 

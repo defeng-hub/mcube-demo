@@ -25,8 +25,9 @@ type Role struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleId      int64  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	RoleName    string `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
+	RoleId int64 `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	// @gotags: json:"role_name" validate:"required"
+	RoleName    string `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name" validate:"required"`
 	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 }
 
@@ -198,7 +199,7 @@ type CreateRoleRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// @gotags: json:"role_name"
-	RoleName string `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name" validate:"required"`
+	RoleName string `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name"`
 	// @gotags: json:"description"
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description"`
 }
